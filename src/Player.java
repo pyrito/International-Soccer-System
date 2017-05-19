@@ -25,7 +25,7 @@ public class Player {
     	playerName = name;
     	this.age = age;
     	teamNumber = teamNo;
-    	appearances = caps;
+    	caps = appearances;
     	position = pos;
     	countryName = country;
     	goals = inputGoals;

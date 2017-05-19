@@ -91,7 +91,7 @@ public class TeamList {
     	String s = "";
     	for(int i = 0; i < tlist.size(); i++){
     		s = s + String.format("%15s %15s %15s", tlist.get(i).getTeam(), tlist.get(i).getCoach(), tlist.get(i).getRanking()) 
-    		+ pl.allPlayersByTeam(tlist.get(i).getTeam(), tlist);
+    		+ pl.allPlayersByTeam(tlist.get(i).getTeam(), tlist) + "\n";
     	}
     	return s;
     }

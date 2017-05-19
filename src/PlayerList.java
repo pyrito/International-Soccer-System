@@ -132,7 +132,7 @@ public class PlayerList {
     		s= s + "\n" + String.format("%15s %15s %15s", tlist.get(index).getTeam(), tlist.get(index).getCoach(), tlist.get(index).getRanking());	
     		}
     	}
-    	return s;
+    	return s + "\n";
     }
     
     public String allPlayersByAge(String country, ArrayList<Team> tlist){
@@ -158,7 +158,7 @@ public class PlayerList {
     		s= s + "\n" + String.format("%15s %15s %15s", tlist.get(index).getTeam(), tlist.get(index).getCoach(), tlist.get(index).getRanking());	
     		}
     	}
-    	return s;
+    	return s + "\n";
     
     }
     
@@ -185,7 +185,7 @@ public class PlayerList {
     		s= s + "\n" + String.format("%15s %15s %15s", tlist.get(index).getTeam(), tlist.get(index).getCoach(), tlist.get(index).getRanking());	
     		}
     	}
-    	return s;
+    	return s + "\n";
     }
     
     public String allPlayersByGoalsPerCap(String country, ArrayList<Team> tlist){
@@ -206,7 +206,7 @@ public class PlayerList {
     	}
     	
     	for(int j = 0; j < output.size(); j++){
-    		s = s + String.format("%20s %15s %15s", output.get(j).getPos(), output.get(j).getName(), output.get(j).getGoalPerCap());
+    		s = s + String.format("%20s %15s %15s", output.get(j).getPos(), output.get(j).getName(), output.get(j).getGoalPerCap()) + "\n";
     		if(j < output.size() - 1){
     		s= s + "\n" + String.format("%15s %15s %15s", tlist.get(index).getTeam(), tlist.get(index).getCoach(), tlist.get(index).getRanking());	
     		}
