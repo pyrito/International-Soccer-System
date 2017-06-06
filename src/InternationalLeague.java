@@ -14,7 +14,8 @@ public class InternationalLeague {
 	static PlayerList plist = new PlayerList();
 	static TeamList tlist = new TeamList();
     
-    /**
+    /*
+     * This method is the main method with the main menu GUI
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
@@ -30,7 +31,7 @@ public class InternationalLeague {
       		 int n = Integer.parseInt(inputValue);
 	       switch(n)
 	       {
-	           case 1:  tempLoad(); break;
+	           case 1:  loadFiles(); break;
 	           case 2: 	edit();break;
 	           case 3:  display(); break;
 	           case 4:  search(); break;
@@ -42,8 +43,19 @@ public class InternationalLeague {
        }
     }
    
-   public static void tempLoad() throws IOException{
-	   Scanner in = new Scanner(new File("/Users/admin/Documents/workspace/International Soccer System/test.txt"));
+    /*
+     * This method creates a prompt for the user to choose the load file that will create the objects for the team and players
+     */
+   public static void loadFiles() throws IOException{
+	   //Scanner in = new Scanner(new File("H:/Users/admin/Documents/workspace/International Soccer System/test.txt"));
+	   	JFileChooser chooser = new JFileChooser();
+    	chooser.requestFocus();
+    	File infile = null;
+    	if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
+	   	{
+	   	  	infile = chooser.getSelectedFile();	
+	   	}
+	   	Scanner in = new Scanner(infile);
 	   int playerCount = in.nextInt();
 	   if(!in.hasNext()){
 		   JOptionPane.showConfirmDialog(null, "There is nothing in the load file.");
@@ -70,34 +82,9 @@ public class InternationalLeague {
 	   }
    }
    
-   public static void loadFiles() throws IOException{
-	   JFileChooser chooser = new JFileChooser();
-    	chooser.requestFocus();
-    	File infile = null;
-    	if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
-	   	{
-	   	  	infile = chooser.getSelectedFile();	
-	   	}
-	   	Scanner in = new Scanner(infile);
-	   	while(in.hasNext())
-	   	{  //read in each of your instance fields
-	   		String line = in.nextLine();
-	   		String[] input = line.split(" ");
-	   		String fullName = input[2] + " " + input[3];
-	 		int age = Integer.parseInt(input[4]);
-	 		int teamNo = Integer.parseInt(input[5]);
-	 		int caps = Integer.parseInt(input[6]);
-	 		int goals = Integer.parseInt(input[7]);
-	   		double amountPaid = in.nextDouble();
-	   		in.nextLine();  // only need if after a number /b4 a String
-	   		String size = in.nextLine();
-			// construcat an object with that data and add to list
-	   		Player p1 = new Player();
-	   		in.nextLine();
-	   	}
-
-    }
-    
+    /*
+     * This method saves the information in the team and player objects into a text file
+     */
    	public static void saveToFile(){
    		String fileName = JOptionPane.showInputDialog("Enter the file name to save to: ");
    			try{
@@ -116,7 +103,7 @@ public class InternationalLeague {
    	}
    	
     public static void display(){
-    	String[] choices = { "Show all teams and players", "Show all teams in alphabetical", "Show team sorted by goals scored", "Show team sorted by caps", "Show team w/player and number", "Show only player name and goals", "Show player and average goals" };
+    	String[] choices = { "Show all teams and players", "Show all teams in alphabetical", "Show team sorted by goals scored", "Show team sorted by caps", "Show team w/player and age", "Show only player name and goals", "Show player and average goals", "Show partial show based on team" };
    		String input = (String) JOptionPane.showInputDialog(null, "Display Options","International Soccer Player System", JOptionPane.QUESTION_MESSAGE, null, choices, choices[0]);
 		String[] i = {"Country" ,"Coach", "Rank", "Position", "Name", "Age", "Team#", "Caps", "Goals", "GPC"};
     	if(input.equals(choices[0])){
@@ -150,10 +137,18 @@ public class InternationalLeague {
     	}
     	else if(input.equals(choices[6])){
     		String mess4 = String.format("%15s %15s %15s %15s %15s %15s", i[0], i[1], i[2], i[3], i[4], i[9]);
-    		JOptionPane.showMessageDialog(null, mess4 + "\n==============================================================================" + "\n" + tlist.displayByGoals(plist));
+    		JOptionPane.showMessageDialog(null, mess4 + "\n==============================================================================" + "\n" + tlist.displayByGoalsPerCap(plist));
+    	}
+    	else if(input.equals(choices[7]))
+    	{
+    		String mess7 = String.format("%15s %15s %15s %15s %15s %15s %15s %15s %15s", i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8]);
+    		partialShow();
     	}
     }
    
+    /*
+     * This method prompts the interface for the user to search for a player either by name or number
+     */
     public static void search(){
     	String[] choices = { "Search by player number", "Search by player name" };
     	String[] i = {"Country" ,"Coach", "Rank", "Position", "Name", "Age", "Team#", "Caps", "Goals", "GPC"};
@@ -162,7 +157,7 @@ public class InternationalLeague {
    		if(input.equals(choices[0])){
    			String[] teams = tlist.findTeam().clone();
 			String searchedTeam = (String)JOptionPane.showInputDialog(null, "Search by team", "International Soccer Player System", JOptionPane.QUESTION_MESSAGE, null, teams, teams[0]);
-			String[]numbers = plist.searchPlayerNumber(searchedTeam).clone();
+			String[] numbers = plist.searchPlayerNumber(searchedTeam).clone();
 			String searchedNumber = (String)JOptionPane.showInputDialog(null, "Search by number", "International Soccer Player System", JOptionPane.QUESTION_MESSAGE, null, numbers, numbers[0]);
 			JOptionPane.showMessageDialog(null, mess + "\n==============================================================================" + "\n" + tlist.findTeam(searchedTeam) + plist.findNumber(searchedNumber));
    		}
@@ -175,6 +170,9 @@ public class InternationalLeague {
    		}
 	}
     
+    /*
+     * This method provides the help graphical interface
+     */
     public static void help(){
     	JOptionPane.showMessageDialog(null,"This program allows the user to maintain a database that organizes player information for international soccer teams. The"
     			+ "\nmain basis of this program is to ensure that the information of the player is stored properly along with his respective team. The first panel"
@@ -189,6 +187,21 @@ public class InternationalLeague {
     			+ "\nThe other object is the player which will have a name, age, team number, international caps, and goals scored in international career."); 
 
     }
+    
+    /*
+     * This method provides the options for the partialShow interface (in which the players on a specific team are shown)
+     */
+    public static void partialShow(){ 
+    	String[] teams = tlist.findTeam().clone();
+    	String[] i = {"Position", "Name", "Age", "Team#", "Caps", "Goals"};
+    	String mess = String.format("%15s %15s %15s %15s %15s %15s", i[0], i[1], i[2], i[3], i[4], i[5]);
+		String searchedTeam = (String)JOptionPane.showInputDialog(null, "Search by team", "International Soccer Player System", JOptionPane.QUESTION_MESSAGE, null, teams, teams[0]);
+		JOptionPane.showMessageDialog(null, mess + "\n===============================================================" + "\n" + plist.findPlayersOnTeam(searchedTeam));
+    }
+    
+    /*
+     * This method provides the prompt for the user to be able to edit the information in the PlayerList and TeamList
+     */
     public static void edit(){
     	String[] choices = { "Add new player", "Add new team", "Delete a player", "Delete a team", "Update goals for a player", "Update caps for a player" };
    		String input = (String) JOptionPane.showInputDialog(null, "Edit Data Menu","International Soccer Player System", JOptionPane.QUESTION_MESSAGE, null, choices, choices[0]);
@@ -226,7 +239,7 @@ public class InternationalLeague {
    				int option = JOptionPane.showConfirmDialog(null, addPlayer, "Add a new player", JOptionPane.OK_CANCEL_OPTION);
 				if (option == JOptionPane.OK_OPTION)
 				{
-   					String name = field1.getText();
+   		 			String name = field1.getText();
     				String age = field2.getText();
     				String teamNo = field3.getText();
     				double caps = Double.parseDouble(field4.getText());

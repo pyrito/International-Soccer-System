@@ -56,14 +56,11 @@ public class TeamList {
      *@return string format of the tlist
      */
     public String toString(){
-    	return "hi";	
-    }
-    
-    /*
-     *This method sorts the teams in the tlist by name
-     */
-    public void sortName(){
-    	
+    	String s = "";
+    	for(int i = 0; i < tlist.size(); i++){
+    		s = s + String.format("%15s %15s %15s", tlist.get(i).getTeam(), tlist.get(i).getCoach(), tlist.get(i).getRanking());
+    	}
+    	return s;	
     }
     
     /*This method sorts the team of choice by the number of goals scored
@@ -78,6 +75,11 @@ public class TeamList {
     	return s;
     }
     
+    /*
+     *This method sorts the team based on the number of caps. The PlayerList is passed through and its method is called as a reference.
+     *@param PlayerList the other object that will compare the caps based on the players
+     *@return a formatted String of all the team information and player information in a sorted fashion
+     */
     public String sortCaps(PlayerList pl){
     	String s = "";
     	for(int i = 0; i < tlist.size(); i++){
@@ -87,6 +89,11 @@ public class TeamList {
     	return s;
     } 
     
+    /*
+     *This method displays all the team information and player information. The PlayerList is passed through as a reference to call its own method which returns all the player information
+     *@param PlayerList the list of player objects
+     *@return the formatted String of all the teams and their respective player information separated with a space between each team
+     */
     public String displayAll(PlayerList pl){
     	String s = "";
     	for(int i = 0; i < tlist.size(); i++){
@@ -96,6 +103,10 @@ public class TeamList {
     	return s;
     }
     
+    /*
+     *This method displays all the teams in the tlist in alphabetical order
+     *@return String the formatted string of all the teams in alphabetical order with their coaches and ranks
+     */
     public String displayAllTeams(){
     	String s = "";
     	if(tlist.size() == 1){
@@ -117,6 +128,11 @@ public class TeamList {
     	return s;	
     }	
     
+    /*
+     *This method displays the partial show of only the players and their goals
+     *@param PlayerList the list of player objects
+     *@return the formatted String of all the teams and their respective player information
+     */
     public String displayByGoals(PlayerList pl){
     	String s = "";
     	for(int i = 0; i < tlist.size(); i++){
@@ -126,6 +142,11 @@ public class TeamList {
     	return s;	
     }
     
+    /*
+     *This method does a partial show with the player name and age
+     *@param PlayerList the list of player objects
+     *@return the formatted String of team information and the player
+     */
     public String displayByAge(PlayerList pl){
     	String s = "";
     	for(int i = 0; i < tlist.size(); i++){
@@ -135,6 +156,11 @@ public class TeamList {
     	return s;	
     }
     
+    /*
+     *This method shows only the player and the GPC (goals per cap)
+     *@param PlayerList the list of player objects
+     *@return the formatted String of the team information and the player's GPC
+     */
     public String displayByGoalsPerCap(PlayerList pl){
     	String s = "";
     	for(int i = 0; i < tlist.size(); i++){
@@ -144,14 +170,10 @@ public class TeamList {
     	return s;		
     }
     
-    public String displayGoals(){
-    	return "hi";	
-    }
-    
-    public String displayCaps(){
-    	return "hi";	
-    }
-    
+    /*
+     * This method put all of the contents of the tlist ArrayList in String format so that it can be read by a file
+     * @return String output of all the team information so that it can all be copied on to a file
+     */
     public String backup(){
     	String s = "";
     	for(int i = 0; i < tlist.size(); i++){
@@ -160,6 +182,11 @@ public class TeamList {
     	return tlist.size() + "\n" + s;
     }
     
+    /*
+     * This method finds which countries in the tlist matched the country that needed to be searched
+     * @param country the country that wished to be searched for
+     * @return String output of the country that wants to be found
+     */
     public String findTeam(String country){
     	int index = 0;
     	for(int i = 0; i < tlist.size(); i++){
